@@ -29,19 +29,23 @@ for y in lines:
 
                     if not lines[k][j].isdigit()\
                     and lines[k][j] != ".":
-                        print(current_number, lines[k][j])
                         next_to_symbol = True
 
         else:
-            if len(current_number) > 0:
-                if next_to_symbol:
-                    f_answer += int(current_number)
-                    next_to_symbol = False
+            if len(current_number) > 0 and next_to_symbol:
+                print(y, j, k, current_number)
+                f_answer += int(current_number)
+                next_to_symbol = False
 
-                current_number = ""
+            current_number = ""
 
         cur_x += 1
     
+    if len(current_number) > 0 and next_to_symbol:
+        print(y, j, k, current_number)
+        f_answer += int(current_number)
+        next_to_symbol = False
+
     cur_y += 1
 
 print(f_answer)
