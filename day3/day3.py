@@ -1,4 +1,4 @@
-# day 1 part 1
+# day 3 part 1
 with open('day3/day3.txt', 'r') as f:
     lines = f.read().split('\n')
 
@@ -33,7 +33,6 @@ for y in lines:
 
         else:
             if len(current_number) > 0 and next_to_symbol:
-                print(y, j, k, current_number)
                 f_answer += int(current_number)
                 next_to_symbol = False
 
@@ -42,7 +41,6 @@ for y in lines:
         cur_x += 1
     
     if len(current_number) > 0 and next_to_symbol:
-        print(y, j, k, current_number)
         f_answer += int(current_number)
         next_to_symbol = False
 
