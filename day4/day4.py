@@ -15,17 +15,8 @@ def extract_current(sheet):
 
     return current_nums
 
-# day 4 part 1
-with open('day4/day4.txt', 'r') as f:
-    lines = f.read().split('\n')
-
-card = 1
-final = 0
-
-for i in lines:
+def find_matches(current, winners, final):
     matches = 0
-    winners = extract_winners(i, card)
-    current = extract_current(i)
 
     for x in current:
         if x in winners:
@@ -36,9 +27,20 @@ for i in lines:
 
     elif matches > 1:
         final += 2**(matches-1)
+    
+    return final, matches
 
-    else:
-        continue
+# day 4 part 1
+with open('day4/day4.txt', 'r') as f:
+    lines = f.read().split('\n')
+
+card = 1
+final = 0
+
+for i in lines:
+    winners = extract_winners(i, card)
+    current = extract_current(i)
+    final = find_matches(current, winners, final)[0]
 
     card += 1
 
@@ -48,27 +50,16 @@ print(final)
 with open('day4/day4_test.txt', 'r') as f:
     lines = f.read().split('\n')
 
-card = 1
-final = 0
+card_list = [1] * len(lines)
 
 for i in lines:
-    matches = 0
     winners = extract_winners(i, card)
     current = extract_current(i)
+    matches = find_matches(current, winners, final)[1]
 
-    for x in current:
-        if x in winners:
-            matches += 1
-
-    if matches == 1:
-       final += 1
-
-    elif matches > 1:
-        final += 2**(matches-1)
-
-    else:
-        continue
+    for i in range(1, matches + 1):
+        card_list[i] += 1
 
     card += 1
 
-print(final)
+print(sum(card_list))
