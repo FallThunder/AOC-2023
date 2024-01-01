@@ -107,3 +107,40 @@ def seed_range(seed_list):
         index += 1
 
     return result
+
+def get_source(destination, map):
+    """
+    Get the initial source for the given destination from the map.
+
+    Parameters:
+    - destination (int): The destination value to find the initial source for.
+    - map (list of tuples): The map to use for finding the initial source.
+
+    Returns:
+    - int: The initial source value for the given destination.
+    """
+    # Iterate through each tuple in the map
+    for destination_value, source_value, range_value in map:
+        # Check if the destination value is within the range of the current tuple
+        if destination_value <= destination < destination_value + range_value:
+            # Return the initial source value
+            return destination - destination_value + source_value
+
+    # Return -1 if no initial source is found
+    return destination
+
+def process_ranges(numbers, number_to_check):
+    def parse_ranges(numbers):
+        ranges = [(numbers[i], numbers[i] + numbers[i + 1]) for i in range(0, len(numbers), 2)]
+        return ranges
+
+    def is_in_ranges(number, ranges):
+        for start, end in ranges:
+            if start <= number <= end:
+                return True
+        return False
+
+    ranges = parse_ranges(numbers)
+    result = is_in_ranges(number_to_check, ranges)
+
+    return result
