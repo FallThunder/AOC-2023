@@ -94,3 +94,16 @@ def get_destination(source, map):
 
     # Return -1 if no destination is found
     return source
+
+def seed_range(seed_list):
+    result = []
+    index = 0
+
+    for i in seed_list:
+        if index % 2 == 0:
+            for l in range(i, i+seed_list[index+1]):
+                result.append(l)
+
+        index += 1
+
+    return result
