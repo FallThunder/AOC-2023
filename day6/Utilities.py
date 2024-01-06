@@ -24,7 +24,7 @@ def read_file_to_list(file_path):
         print(f"Error: {e}")
         return []
     
-def time_and_record(input_list):
+def time_and_record_parta(input_list):
     """
     Extracts vertically corresponding numbers from a formatted input list.
 
@@ -49,7 +49,7 @@ def time_and_record(input_list):
     # Return the resulting list
     return result
 
-def find_answer(input_list):
+def calculate_timings_parta(input_list):
     """
     Finds the answer to the question.
     
@@ -81,3 +81,51 @@ def find_answer(input_list):
 
     # Return the answer
     return answer
+
+def time_and_record_partb(input_list):
+    """
+    Concatenates time values into a single large integer and
+    distance values into another large integer from a list of formatted strings.
+
+    Parameters:
+    - input_list (list of str): A list containing formatted time and distance data.
+
+    Returns:
+    - tuple: A tuple containing two integers - the concatenated time value
+      and the concatenated distance value.
+    """
+    # Extract and join time values into a single integer
+    time_line = input_list[0].split()[1:]
+    time_value = int(''.join(time_line))
+
+    # Extract and join distance values into a single integer
+    distance_line = input_list[1].split()[1:]
+    distance_value = int(''.join(distance_line))
+
+    # Return a tuple with the concatenated time and distance values
+    return time_value, distance_value
+
+def calculate_timings_partb(input_list):
+    """
+    Finds the answer to the question.
+    
+    Parameters:
+    - input_list (list): A list containing tuples of vertically corresponding
+      time and distance values extracted from the input list.
+      
+    Returns:
+    - int: The answer to the question.
+    """
+    # Extract time and record values from the input list
+    time = input_list[0]
+    record = input_list[1]
+    answer_count = 0
+
+    # Iterate through each possible time to hold the record
+    for t_to_hold in range(1, time + 1):
+        # If the time to hold the record is less than the current time,
+        if t_to_hold * (time - t_to_hold) > record:
+            answer_count += 1
+
+    # Return the answer
+    return answer_count
