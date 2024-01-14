@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 def read_file_to_list(file_path):
     """
     Read the contents of a file into a list of strings.
@@ -32,7 +34,7 @@ def hand_type(card_and_bid):
     Returns:
     - None: Prints the type of hand.
     """
-    hand_dict = {}
+    hand_dict = OrderedDict()
 
     # List of cards
     cards = [
@@ -61,38 +63,31 @@ def hand_type(card_and_bid):
         
         # Analyze the length of hand_repeat to determine the type of hand
         if len(hand_repeat) == 5:
-            hand_dict[hand] = 100
-            resolve_rank(hand_dict)
+            hand_dict[hand] = 1000
         
         elif len(hand_repeat) == 4:
             if hand_repeat[0][1] == 2:
-                hand_dict[hand] = 200
-                resolve_rank(hand_dict)
+                hand_dict[hand] = 2000
 
         elif len(hand_repeat) == 3:
             if hand_repeat[0][1] == 2:
-                hand_dict[hand] = 300
-                resolve_rank(hand_dict)
+                hand_dict[hand] = 3000
 
             else:
-                hand_dict[hand] = 400
-                resolve_rank(hand_dict)
+                hand_dict[hand] = 4000
 
         elif len(hand_repeat) == 2:
             if hand_repeat[0][1] == 3:
-                hand_dict[hand] = 500
-                resolve_rank(hand_dict)
+                hand_dict[hand] = 5000
 
             else:
-                hand_dict[hand] = 600
-                resolve_rank(hand_dict)
+                hand_dict[hand] = 6000
 
         else:
-            hand_dict[hand] = 700
-            resolve_rank(hand_dict)
+            hand_dict[hand] = 7000
 
     # Sort the hand_dict in ascending order of the hand type
-    hand_dict = sorted(hand_dict.items(), key=lambda x:x[1])
+    hand_dict = OrderedDict({hand: rank for hand, rank in sorted(hand_dict.items(), key=lambda item: item[1])})
 
     return hand_dict
 
@@ -102,8 +97,12 @@ def resolve_rank(hand_and_rank):
     
     Parameters:
     - hand_and_rank (list of tuple): A list of tuples, where each tuple represents a hand and its rank.
-    
+     
     Returns:
     - None: Prints the rank of the hand.
     """
-    print(hand_and_rank)
+    for i in hand_and_rank:
+        if hand_and_rank[i] == 2000:
+            print(hand_and_rank[i])
+
+    return hand_and_rank
