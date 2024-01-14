@@ -34,7 +34,7 @@ def hand_type(card_and_bid):
     Returns:
     - None: Prints the type of hand.
     """
-    hand_dict = OrderedDict()
+    hand_dict = {}
 
     # List of cards
     cards = [
@@ -87,7 +87,7 @@ def hand_type(card_and_bid):
             hand_dict[hand] = 7000
 
     # Sort the hand_dict in ascending order of the hand type
-    hand_dict = OrderedDict({hand: rank for hand, rank in sorted(hand_dict.items(), key=lambda item: item[1])})
+    hand_dict = {hand: rank for hand, rank in sorted(hand_dict.items(), key=lambda item: item[1])}
 
     return hand_dict
 
@@ -97,12 +97,63 @@ def resolve_rank(hand_and_rank):
     
     Parameters:
     - hand_and_rank (list of tuple): A list of tuples, where each tuple represents a hand and its rank.
-     
+    
     Returns:
     - None: Prints the rank of the hand.
     """
+    t_rank = 1
+    # Iterate through each hand
     for i in hand_and_rank:
-        if hand_and_rank[i] == 2000:
-            print(hand_and_rank[i])
+        for y in hand_and_rank:
+            if hand_and_rank[i] == hand_and_rank[y] and i != y:
+                if compare_hands(i, y) == 0:
+                    hand_and_rank[i] += 1
+
+                else:
+                    hand_and_rank[y] += 1
+
+    hand_and_rank = {hand: rank for hand, rank in sorted(hand_and_rank.items(), key=lambda item: item[1])}
+
+    for i in hand_and_rank:
+        hand_and_rank[i] = t_rank
+        t_rank += 1
 
     return hand_and_rank
+
+def compare_hands(hand1, hand2):
+    """
+    Compare the hands to resolve the rank.
+    
+    Parameters:
+    - hand1 (str): The first hand.
+    - hand2 (str): The second hand.
+    
+    Returns:
+    - 0, 1: Returns 0 if the first hand is better, 1 if the second hand is better.
+    """
+    # List of cards
+    cards = [
+        "2", "3",
+        "4", "5",
+        "6", "7",
+        "8", "9",
+        "T", "J",
+        "Q", "K",
+        "A"
+    ]
+
+    # Compare the hands
+    for card1, card2 in zip(hand1[:5], hand2[:5]):
+        if cards.index(card1) > cards.index(card2):
+            return 0
+        
+        elif cards.index(card1) < cards.index(card2):
+            return 1
+        
+def total_winnings(hand_and_rank):
+    final = 0
+
+    for i in hand_and_rank:
+        final += hand_and_rank[i] * int(i[6:])
+
+    return final
