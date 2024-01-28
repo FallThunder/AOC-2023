@@ -1,5 +1,3 @@
-from collections import OrderedDict
-
 def read_file_to_list(file_path):
     """
     Read the contents of a file into a list of strings.
@@ -221,14 +219,14 @@ def adjust_hand(hand):
     }
     # Pull the hand out of the line
     hand = hand.split()[0]
-    # If 'J' appears 5 times, return the original hand
-    if hand.count('J') == 5:
-        return hand
-    # Create a dictionary to count the occurrence of each character
+    # Create a dictionary to count the occurrence of each card except 'J'
     char_count = {char: hand.count(char) for char in set(hand) if char != 'J'}
     # Find the character with the highest count and the highest value
     max_char = max(char_count, key=lambda char: (char_count[char], card_values[char]))
-    # Replace 'J' with the character with the highest count and the highest value
-    adjusted_hand = hand.replace('J', max_char)
+    # Replace 'J' with the card with the highest count and the highest value. If max_char is empty, then return the hand as is
+    if max_char == "":
+        return hand
+    else:
+        adjusted_hand = hand.replace('J', max_char)
 
     return adjusted_hand

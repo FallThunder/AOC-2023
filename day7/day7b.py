@@ -1,27 +1,41 @@
+from operator import itemgetter
 from Utilities import read_file_to_list
-from Utilities import hand_type
-from Utilities import adjust_hand
+from UtilitiesB import adjust_hand
+from UtilitiesB import classify_hand
+from UtilitiesB import rank_cards
 
 def main():
-    list = []
     # Path to input data
     file_path = '/Users/pratyushsiva/VSCode/AOC 2023/day7/day7.txt'
     # Read the input data
     lines = read_file_to_list(file_path)
+    # Create a list to store the hands
+    hand_list = []
+    # Create a variable to store the final score
+    final = 0
+    # iterate through each hand
     for hand in lines:
-        # Adjust hand to account for jokers
-        adjusted_hand = adjust_hand(hand)
-        # Find the hand type
-        list.append(hand_type(hand, adjusted_hand))
+        # Store the cards and bid pair in a tuple
+        hand_data = (hand.split()[0], hand.split()[1])
+        # Add an element to the tuple where J cards are replaced with the most common non J card
+        hand_data = adjust_hand(hand_data)
+        # Classify the hand and add the classification to the tuple
+        hand_data = classify_hand(hand_data)
+        # Rank the cards and add the rank to the tuple
+        hand_data = rank_cards(hand_data)
+        # Add the hand to the hand_list
+        hand_list.append(hand_data)
 
-    # Sort the list by 2nd element in tuple in ascending order
-    list.sort(key=lambda x: x[2], reverse=False)
-    # Multiply the bid with the index + 1 of the hand and sum them up
-    sum = 0
-    for i in range(len(list)):
-        sum += int(list[i][1]) * (i + 1)
+    # Sort the hand_list by rank
+    hand_list = sorted(hand_list, key=itemgetter(4))
 
-    print(sum)
+    # Iterate through each hand in the hand_list
+    for hand in hand_list:
+        # Calculate the final score using the current position in the list multiplied by the bid
+        final += (hand_list.index(hand) + 1) * int(hand[1])
+
+    # Print the final score
+    print(final)
 
 if __name__ == "__main__":
     main()
