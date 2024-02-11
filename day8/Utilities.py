@@ -73,3 +73,25 @@ def trace_path(step_data, map):
         new_step_data += (0,)
 
     return new_step_data
+
+def start_paths(lines):
+    """
+    Create a list of starting nodes.
+    
+    Parameters:
+    - lines (list of str): A list of strings, where each string represents a path.
+    
+    Returns:
+    - list of str: A list of strings, where each string represents a starting node.
+    """
+    # Create a list to store the starting nodes
+    starting_nodes = []
+
+    # Iterate through the paths
+    for node_list in lines:
+        # If the path ends with A
+        if node_list[2] == 'A':
+            # Add the letters of the path to the list
+            starting_nodes.append(node_list[:3])
+
+    return starting_nodes
