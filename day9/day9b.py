@@ -1,7 +1,7 @@
 from Utilities import readFileToList
 from Utilities import initialSequence
 from Utilities import reduceSequence
-from Utilities import solveSequence
+from Utilities import solveSequenceB
 
 def main():
     # Path to input data
@@ -27,7 +27,7 @@ def main():
         sequenceMap.append(sequence)
         sequenceMap = list(reversed(sequenceMap))
 
-        answer += solveSequence(sequenceMap)
+        answer += solveSequenceB(sequenceMap)
 
     print(answer)
 
