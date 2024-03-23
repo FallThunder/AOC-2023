@@ -60,10 +60,22 @@ def findHorizontalMirror(pattern):
         if line + 1 < len(pattern):
             # If the current line is the same as the next line
             if pattern[line] == pattern[line + 1]:
+                # Split the pattern into two slices
+                fSlice = pattern[:line + 1]
+                sSlice = pattern[line + 1:]
                 # If the start of the pattern up to the current line is the same as the end of the pattern from the next line
-                if set(pattern[:line + 1]).issubset(pattern[line + 1:][::-1]) or set(pattern[:line + 1]).issuperset(pattern[line + 1:][::-1]):
-                    # Return the original pattern, the type of mirror, and the line number at which the mirror is found
-                    return (pattern, "H", len(pattern[:line + 1]))
+                if set(fSlice).issubset(sSlice):
+                    # If the reverse of the second slice is the same as the first slice up to the current line
+                    if fSlice[::-1] == sSlice[:len(fSlice)]:
+                        # Return the original pattern, the type of mirror, and the line number at which the mirror is found
+                        return (pattern, "H", len(fSlice))
+                
+                # If the start of the pattern up to the current line is the same as the end of the pattern from the next line
+                elif set(fSlice).issuperset(sSlice):
+                    # If the reverse of the second slice is the same as the first slice up to the current line
+                    if sSlice == fSlice[::-1][:len(sSlice)]:
+                        # Return the original pattern, the type of mirror, and the line number at which the mirror is found
+                        return (pattern, "H", len(fSlice))
 
             else:
                 continue
@@ -73,7 +85,7 @@ def findHorizontalMirror(pattern):
 
 def findVerticalMirror(pattern):
     """
-    Find the horizontal mirror of a pattern.
+    Find the vertical mirror of a pattern.
 
     Parameters:
     - pattern (list of str): A list of strings, where each string represents a line in the pattern.
@@ -89,22 +101,34 @@ def findVerticalMirror(pattern):
         patternLine = ''.join(patternLine)
         # Add the rotated pattern to the list of rotated patterns
         rotatedPattern.append(patternLine)
-    # For each line in the pattern
+   # For each line in the pattern
     for line in range(len(rotatedPattern)):
         # If line is within the length of the pattern
         if line + 1 < len(rotatedPattern):
             # If the current line is the same as the next line
             if rotatedPattern[line] == rotatedPattern[line + 1]:
+                # Split the pattern into two slices
+                fSlice = rotatedPattern[:line + 1]
+                sSlice = rotatedPattern[line + 1:]
                 # If the start of the pattern up to the current line is the same as the end of the pattern from the next line
-                if set(rotatedPattern[:line + 1]).issubset(rotatedPattern[line + 1:][::-1]) or set(rotatedPattern[:line + 1]).issuperset(rotatedPattern[line + 1:][::-1]):
-                    # Return the original pattern, the type of mirror, and the line number at which the mirror is found
-                    return (rotatedPattern, "V", len(rotatedPattern[:line + 1]))
+                if set(fSlice).issubset(sSlice):
+                    # If the reverse of the second slice is the same as the first slice up to the current line
+                    if fSlice[::-1] == sSlice[:len(fSlice)]:
+                        # Return the original pattern, the type of mirror, and the line number at which the mirror is found
+                        return (pattern, "V", len(fSlice))
+                
+                # If the start of the pattern up to the current line is the same as the end of the pattern from the next line
+                elif set(fSlice).issuperset(sSlice):
+                    # If the reverse of the second slice is the same as the first slice up to the current line
+                    if sSlice == fSlice[::-1][:len(sSlice)]:
+                        # Return the original pattern, the type of mirror, and the line number at which the mirror is found
+                        return (pattern, "V", len(fSlice))
 
             else:
                 continue
 
         else:
-            return (rotatedPattern, "V", 0)
+            return (pattern, "V", 0)
 
 def scorePattern(patternData):
     """
@@ -121,3 +145,27 @@ def scorePattern(patternData):
     
     else:
         return patternData[2]
+
+def patchHorizontalMirror(pattern):
+    for line in range(len(pattern)):
+        if line + 1 < len(pattern):
+            newLine = compareLines(pattern[line], pattern[line + 1])
+
+            if newLine:
+                print(pattern[line], pattern[line + 1])
+
+            else:
+                return False
+
+
+def compareLines(line1, line2):
+    mismatch = 0
+    for x, y in zip(line1, line2):
+        if x != y:
+            mismatch += 1
+        
+    if mismatch == 1:
+        return True
+    
+    else:
+        return False

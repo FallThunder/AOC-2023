@@ -17,10 +17,17 @@ def main():
     for pattern in patterns:
         # Find the horizontal mirror of the pattern
         patternData = findHorizontalMirror(pattern)
-        # Add the score of the pattern to the final score
-        final += scorePattern(patternData)
-        # Find the vertical mirror of the pattern
-        patternData = findVerticalMirror(pattern)
+        # If the mirror is not found
+        if patternData[2] == 0:
+            # Find the vertical mirror of the pattern
+            patternData = findVerticalMirror(pattern)
+
+        if patternData[2] == 0:
+            for i in patternData[0]:
+                print(i)
+
+            print()
+
         # Add the score of the pattern to the final score
         final += scorePattern(patternData)
 
