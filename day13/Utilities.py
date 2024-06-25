@@ -157,7 +157,6 @@ def patchHorizontalMirror(pattern):
             else:
                 return False
 
-
 def compareLines(line1, line2):
     mismatch = 0
     for x, y in zip(line1, line2):
